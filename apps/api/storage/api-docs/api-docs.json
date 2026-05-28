@@ -1,0 +1,148 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kine API Documentation",
+        "description": "Documentação da API Kine",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Lista todas as tarefas",
+                "operationId": "98327aa4a4a0b600cb4ac9ac19582be8",
+                "responses": {
+                    "200": {
+                        "description": "Lista de tasks retornada com sucesso"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Criar uma nova tarefa",
+                "operationId": "80c6c491c89ad0d5257b6173eadafd31",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTaskDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tarefa criada com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Retorna uma tarefa com sua timeline de logs",
+                "operationId": "6d90b6cb83922d3a1ed0e7b30bc91f7b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarefa encontrada"
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada"
+                    }
+                }
+            }
+        },
+        "/api/tasks/{taskId}/logs": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Retorna os logs de execução de uma tarefa",
+                "operationId": "6c83e2eea678cbdb6eba5e4f06d1258f",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logs encontrados"
+                    },
+                    "404": {
+                        "description": "Tarefa não encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateTaskDTO": {
+                "title": "CreateTaskDTO",
+                "description": "DTO para criação de uma nova tarefa de sistema",
+                "properties": {
+                    "name": {
+                        "description": "Nome da tarefa",
+                        "type": "string",
+                        "example": "Enviar e-mail de boas-vindas",
+                        "maxLength": 100
+                    },
+                    "type": {
+                        "description": "Tipo da tarefa: 'email' ou 'report'",
+                        "example": "email"
+                    },
+                    "priority": {
+                        "description": "Prioridade da tarefa: 'high' ou 'default'",
+                        "example": "high"
+                    },
+                    "payload": {
+                        "description": "Dados necessários para a execução da tarefa",
+                        "type": "object",
+                        "example": {
+                            "subject": "Bem vindo",
+                            "body": "Olá...",
+                            "recipients": [
+                                "user@test.com"
+                            ]
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tasks",
+            "description": "Tasks"
+        }
+    ]
+}

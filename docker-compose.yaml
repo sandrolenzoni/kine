@@ -1,0 +1,84 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/api:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: kine_mysql
+    environment:
+      MYSQL_DATABASE: kine_db
+      MYSQL_ROOT_PASSWORD: kine_developer
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: developer_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  reverb:
+    build: ./apps/api
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./apps/api:/var/www/html
+    networks:
+      - app-network
+
+  worker-high:
+    build: ./apps/api
+    command: php artisan queue:work redis --queue=high
+    volumes:
+      - ./apps/api:/var/www/html
+    depends_on: [ redis, mysql ]
+    networks:
+      - app-network
+
+  worker-default:
+    build: ./apps/api
+    command: php artisan queue:work redis --queue=default
+    volumes:
+      - ./apps/api:/var/www/html
+    depends_on: [ redis, mysql ]
+    networks:
+      - app-network
+
+  web:
+    build:
+      context: './apps/web'
+      dockerfile: Dockerfile
+    container_name: 'email_web'
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  mysql_data:
