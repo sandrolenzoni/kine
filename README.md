@@ -152,12 +152,3 @@ O projeto possui **15 testes** (7 unitários + 8 de feature) cobrindo criação,
 | reverb | 8080 | WebSocket server |
 | worker-high | — | Worker fila high |
 | worker-default | — | Worker fila default |
-
-## Troubleshooting
-
-| Problema | Solução |
-|----------|---------|
-| `Connection refused` no frontend | Verificar se `REVERB_APP_ID` e `REVERB_KEY` no `apps/api/.env` batem com `apps/web/.env` |
-| Worker não processa jobs | `docker compose logs worker-high` para ver erros |
-| Migration falha | `docker compose exec api php artisan migrate --force` |
-| Porta ocupada | Alterar a porta em `docker compose.yaml` e no `.env` correspondente
