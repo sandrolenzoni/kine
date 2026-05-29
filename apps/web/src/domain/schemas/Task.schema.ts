@@ -13,7 +13,7 @@ export const TaskSchema = z.object({
   id: z.number().nullable().optional(),
   task_code: z.number(),
   name: z.string(),
-  payload: z.record(z.any()),
+  payload: z.any(),
   priority: TaskPrioritySchema.default("default"),
   type: TaskTypeSchema.default("email"),
   status: TaskStatusSchema.default("pending"),
@@ -25,8 +25,11 @@ export const TaskSchema = z.object({
 });
 
 export const TaskCreateSchema = z.object({
-  name: z.string().trim().min(1, "Informe o nome da task"),
+  name: z
+    .string("O nome da task é obrigatório")
+    .trim()
+    .min(1, "Informe o nome da task"),
   priority: TaskPrioritySchema.default("default"),
   type: TaskTypeSchema.default("email"),
-  payload: z.any(), // array associativo/objeto em PHP mapeia para record
+  payload: z.any(),
 });

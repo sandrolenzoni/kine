@@ -15,7 +15,7 @@ const TaskItem = ({ task, onClick }: { task: Task; onClick?: () => void }) => {
       key={task.id}
       onClick={onClick}
       className={cn(
-        "bg-neutral-700/15 rounded-md border border-neutral-600/25 py-3 px-6 border-l-5 flex  gap-3 items-center",
+        "bg-neutral-700/15 rounded-md border border-neutral-600/25 py-3 px-3 sm:px-6 border-l-5 flex  gap-3 items-center",
         styles.border,
         "hover:shadow-2xl cursor-pointer transition-all",
       )}
@@ -26,7 +26,7 @@ const TaskItem = ({ task, onClick }: { task: Task; onClick?: () => void }) => {
             {task.task_code}
           </span>
           <div className="flex items-center gap-2">
-            <div className="flex gap-5">
+            <div className="flex gap-2 sm:gap-5">
               <Badge
                 variant="default"
                 className={cn(
@@ -68,7 +68,7 @@ const TaskItem = ({ task, onClick }: { task: Task; onClick?: () => void }) => {
               {task.name ?? `Task #${task.task_code}`}
             </h3>
           </div>
-          <div className="flex gap-4 text-xs text-muted-foreground">
+          <div className="flex gap-2 sm:gap-4 text-xs text-muted-foreground">
             {task.size_kb != null && (
               <span className="flex items-center gap-1">
                 <svg

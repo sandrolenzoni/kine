@@ -58,4 +58,12 @@
     -webkit-box-shadow: 0 0 0 1000px var(--color-background) inset !important;
     -webkit-text-fill-color: var(--color-foreground) !important;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

@@ -50,16 +50,17 @@ const PriorityMap: Record<string, string> = {
   default: "Padrão",
 };
 
-const TaskCreate = ({ open, onOpenChange: onOpenChangeExternal }: TaskCreateProps) => {
+const TaskCreate = ({
+  open,
+  onOpenChange: onOpenChangeExternal,
+}: TaskCreateProps) => {
   const { mutate, isPending } = useCreateTask();
 
   const form = useForm<TaskCreateType>({
     resolver: zodResolver(TaskCreateSchema),
     defaultValues: {
-      name: "",
       type: "email",
       priority: "default",
-      payload: "{}",
     },
   });
 
@@ -68,8 +69,8 @@ const TaskCreate = ({ open, onOpenChange: onOpenChangeExternal }: TaskCreateProp
 
     if (!open) form.reset();
 
-    onOpenChangeExternal(open)
-  }
+    onOpenChangeExternal(open);
+  };
 
   const onSubmit = (values: TaskCreateType) => {
     let payload = values.payload;
@@ -99,7 +100,7 @@ const TaskCreate = ({ open, onOpenChange: onOpenChangeExternal }: TaskCreateProp
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="w-3xl bg-neutral-900/80 p-8 gap-6 border-neutral-800/35 shadow-xl shadow-neutral-950/35">
+      <AlertDialogContent className="w-full max-w-3xl bg-neutral-900/80 p-4 sm:p-8 gap-6 border-neutral-800/35 shadow-xl shadow-neutral-950/35">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-2xl font-semibold tracking-tight">
             Nova Tarefa
@@ -110,7 +111,7 @@ const TaskCreate = ({ open, onOpenChange: onOpenChangeExternal }: TaskCreateProp
         </AlertDialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
             <FormField
               control={form.control}
               name="name"
@@ -208,10 +209,14 @@ const TaskCreate = ({ open, onOpenChange: onOpenChangeExternal }: TaskCreateProp
             />
 
             <AlertDialogFooter className="pt-2 flex gap-5">
-              <AlertDialogCancel size='sm' type="button" variant="ghost-destructive">
+              <AlertDialogCancel
+                size="sm"
+                type="button"
+                variant="ghost-destructive"
+              >
                 Cancelar
               </AlertDialogCancel>
-              <Button type="submit" size='sm' disabled={isPending}>
+              <Button type="submit" size="sm" disabled={isPending}>
                 {isPending ? (
                   <>
                     <LoaderCircle className="animate-spin" />

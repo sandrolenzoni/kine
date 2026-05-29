@@ -75,7 +75,7 @@ const TaskView = ({ open, onOpenChange, taskId }: TaskViewProps) => {
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-2xl bg-neutral-900/95 p-0 gap-0 border-neutral-800/50 shadow-xl shadow-neutral-950/50 overflow-hidden">
+      <AlertDialogContent className="w-full max-w-2xl bg-neutral-900/95 p-0 gap-0 border-neutral-800/50 shadow-xl shadow-neutral-950/50 overflow-hidden">
         {isLoading ? (
           <LoadingState height="h-64" />
         ) : error || !task ? (
@@ -111,8 +111,8 @@ const TaskView = ({ open, onOpenChange, taskId }: TaskViewProps) => {
             </AlertDialogHeader>
 
             <ScrollArea className="max-h-[60vh]">
-              <div className="p-6 space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <InfoCard
                     icon={<Package className="w-4 h-4" />}
                     label="Tipo"

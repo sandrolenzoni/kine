@@ -55,27 +55,22 @@ const TaskList = () => {
 
   return (
     <div className="flex flex-1 flex-col gap-4">
-      <div className="flex items-center justify-between gap-8">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-8">
         <Input
           placeholder="Pesquise a Task por nome, fila ou payload"
           scale="md"
-          className="w-full max-w-lg"
+          className="w-full sm:max-w-lg"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           rightIcon={<Search className="w-4 text-neutral-400" />}
         />
-        <div className="flex flex-1 justify-end gap-3">
+        <div className="flex justify-end gap-3">
           <Button size="md" onClick={() => setOpenCreate(true)}>
             <Plus className="w-4 h-4 mr-2" />
             TAREFA
           </Button>
-          <Button
-            size="md"
-            variant="secondary"
-            onClick={() => setOpenLogs(true)}
-          >
+          <Button size="md" variant="secondary" onClick={() => setOpenLogs(true)}>
             <Logs className="w-5 h-5" />
-            LOGS DO SISTEMA
           </Button>
         </div>
       </div>

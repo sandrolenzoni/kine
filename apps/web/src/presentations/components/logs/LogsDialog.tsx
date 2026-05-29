@@ -24,7 +24,7 @@ const LogsDialog = ({ open, onOpenChange }: LogsDialogProps) => {
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-2xl bg-neutral-900/95 p-0 gap-0 border-neutral-800/50 shadow-xl shadow-neutral-950/50 overflow-hidden">
+      <AlertDialogContent className="w-full max-w-2xl bg-neutral-900/95 p-0 gap-0 border-neutral-800/50 shadow-xl shadow-neutral-950/50 overflow-hidden">
         <AlertDialogHeader className="p-6 pb-4 border-b border-neutral-800/50">
           <div className="flex items-center gap-3">
             <FileText className="w-5 h-5 text-primary" />
@@ -38,7 +38,7 @@ const LogsDialog = ({ open, onOpenChange }: LogsDialogProps) => {
         </AlertDialogHeader>
 
         <ScrollArea className="max-h-[60vh]">
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {isLoading ? (
               <LoadingState height="h-48" message="Carregando logs..." />
             ) : error ? (
