@@ -25,7 +25,7 @@ import {
   Flag,
   Play,
 } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { formatDate } from "@/lib/format-date";
 import { STATUS_STYLES } from "@/lib/status-styles";
 import { formatDuration } from "@/lib/format-duration";
@@ -47,7 +47,8 @@ const TYPE_LABEL: Record<TaskType, string> = {
 
 const TaskView = ({ open, onOpenChange, taskId }: TaskViewProps) => {
   const { data, isLoading, error } = useGetTask(taskId);
-  const { mutate: retryTask, isPending: isRetrying } = useRetryTask();
+  const { mutateAsync: retryTask, isPending: isRetrying } = useRetryTask();
+  const [retryError, setRetryError] = useState<string | null>(null);
 
   const task = data?.task;
   const logs = data?.logs ?? [];
@@ -205,20 +206,32 @@ const TaskView = ({ open, onOpenChange, taskId }: TaskViewProps) => {
 
             <AlertDialogFooter className="p-4 border-t border-neutral-800/50">
               {task.status === "failed" && (
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  disabled={isRetrying}
-                  onClick={() => {
-                    retryTask(task.id!);
-                    onOpenChange(false);
-                  }}
-                >
-                  <RotateCcw
-                    className={`w-4 h-4 mr-2 ${isRetrying ? "animate-spin" : ""}`}
-                  />
-                  Reprocessar
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={isRetrying || !task.id}
+                    onClick={async () => {
+                      setRetryError(null);
+                      try {
+                        await retryTask(task.id!);
+                        onOpenChange(false);
+                      } catch (e) {
+                        setRetryError(e instanceof Error ? e.message : "Erro ao reprocessar tarefa");
+                      }
+                    }}
+                  >
+                    <RotateCcw
+                      className={`w-4 h-4 mr-2 ${isRetrying ? "animate-spin" : ""}`}
+                    />
+                    Reprocessar
+                  </Button>
+                  {retryError && (
+                    <span className="text-xs text-destructive max-w-[200px] truncate">
+                      {retryError}
+                    </span>
+                  )}
+                </div>
               )}
               <AlertDialogCancel size="sm" onClick={() => onOpenChange(false)}>
                 Fechar

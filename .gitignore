@@ -19,3 +19,7 @@ apps/api/storage/framework/sessions/
 apps/api/storage/framework/views/
 apps/api/storage/logs/
 apps/api/bootstrap/cache/
+
+# .env files needed for docker-compose up -d (recruitment)
+!apps/api/.env
+!apps/web/.env

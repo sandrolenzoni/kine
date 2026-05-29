@@ -6,7 +6,7 @@ const useTaskWebsocket = (viewingTaskId: number | null = null) => {
   useEffect(() => {
     const channel = echo.channel("tasks");
 
-    channel.listen("TaskStatusChanged", (e: { task: { id: number; status: string } }) => {
+    channel.listen(".TaskStatusChanged", (e: { task: { id: number; status: string } }) => {
       queryClient.setQueryData(["tasks"], (old: unknown[] | undefined) => {
         if (!old) return old;
         return old.map((t: Record<string, unknown>) =>
@@ -17,7 +17,7 @@ const useTaskWebsocket = (viewingTaskId: number | null = null) => {
     });
 
     return () => {
-      channel.stopListening("TaskStatusChanged");
+      channel.stopListening(".TaskStatusChanged");
       echo.leave("tasks");
     };
   }, []);
@@ -32,7 +32,7 @@ const useTaskWebsocket = (viewingTaskId: number | null = null) => {
       queryClient.invalidateQueries({ queryKey: ["task", id] });
     });
 
-    channel.listen("TaskStatusChanged", (e: { task: { id: number; status: string } }) => {
+    channel.listen(".TaskStatusChanged", (e: { task: { id: number; status: string } }) => {
       queryClient.setQueryData(["task", id], (old: { task: Record<string, unknown>; logs: unknown[] } | undefined) => {
         if (!old) return old;
         return { ...old, task: { ...old.task, status: e.task.status } };
@@ -42,7 +42,7 @@ const useTaskWebsocket = (viewingTaskId: number | null = null) => {
 
     return () => {
       channel.stopListening(".TaskStepExecuted");
-      channel.stopListening("TaskStatusChanged");
+      channel.stopListening(".TaskStatusChanged");
       echo.leave(`tasks.${id}`);
     };
   }, [viewingTaskId]);

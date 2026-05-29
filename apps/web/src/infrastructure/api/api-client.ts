@@ -76,7 +76,7 @@ export const createClient = (options: ClientOptions) => {
 };
 
 const getBaseUrl = (): string => {
-  const url = import.meta.env?.VITE_API_URL || process.env.VITE_API_URL || "";
+  const url = import.meta.env.VITE_API_URL || "";
   if (!url) console.warn("API_URL não definida nas variáveis de ambiente.");
   return url;
 };

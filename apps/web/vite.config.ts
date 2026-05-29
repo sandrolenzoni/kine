@@ -11,8 +11,14 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: [
-      { find: "@/components", replacement: path.resolve(__dirname, "./src/presentations/components") },
-      { find: "@/hooks", replacement: path.resolve(__dirname, "./src/presentations/hooks") },
+      {
+        find: "@/components",
+        replacement: path.resolve(__dirname, "./src/presentations/components"),
+      },
+      {
+        find: "@/hooks",
+        replacement: path.resolve(__dirname, "./src/presentations/hooks"),
+      },
       { find: "@", replacement: path.resolve(__dirname, "./src") },
     ],
   },

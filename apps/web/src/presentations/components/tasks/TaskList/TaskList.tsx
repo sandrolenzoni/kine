@@ -1,14 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
-import { useListTaks } from "../../../hooks/useListTaks";
+import { useListTasks } from "../../../hooks/useListTasks";
 import { ScrollArea } from "../../scroll-area";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
-import {
-  Search,
-  Plus,
-  Logs,
-  Inbox,
-} from "lucide-react";
+import { Search, Plus, Logs, Inbox } from "lucide-react";
 import { useTaskWebsocket } from "../../../hooks/useTaskWebsocket";
 import { TaskCreate } from "../TaskCreate";
 import { TaskView } from "../TaskView/TaskView";
@@ -19,10 +14,10 @@ import { LoadingState } from "@/components/ui/loading-state/LoadingState";
 import { ErrorState } from "@/components/ui/error-state/ErrorState";
 
 const getDeepSearchString = (obj: any): string => {
-  if (obj === null || obj === undefined) return '';
+  if (obj === null || obj === undefined) return "";
 
-  if (typeof obj === 'object') {
-    return Object.values(obj).map(getDeepSearchString).join(' ');
+  if (typeof obj === "object") {
+    return Object.values(obj).map(getDeepSearchString).join(" ");
   }
 
   return String(obj);
@@ -30,7 +25,7 @@ const getDeepSearchString = (obj: any): string => {
 
 const TaskList = () => {
   const { setTasks, filterStatus, search, setSearch } = useKineContext();
-  const { data: tasks, isLoading, error } = useListTaks();
+  const { data: tasks, isLoading, error } = useListTasks();
   const [openCreate, setOpenCreate] = useState(false);
   const [openLogs, setOpenLogs] = useState(false);
   const [viewTaskId, setViewTaskId] = useState<number | null>(null);
@@ -47,7 +42,8 @@ const TaskList = () => {
     const searchTerm = search.toLowerCase();
 
     return tasks.filter((task) => {
-      const matchesStatus = !filterStatus || filterStatus === 'all' || task.status === filterStatus;
+      const matchesStatus =
+        !filterStatus || filterStatus === "all" || task.status === filterStatus;
 
       const fullSearchString = getDeepSearchString(task).toLowerCase();
 
@@ -73,8 +69,13 @@ const TaskList = () => {
             <Plus className="w-4 h-4 mr-2" />
             TAREFA
           </Button>
-          <Button size="md" variant="secondary" onClick={() => setOpenLogs(true)}>
+          <Button
+            size="md"
+            variant="secondary"
+            onClick={() => setOpenLogs(true)}
+          >
             <Logs className="w-5 h-5" />
+            LOGS DO SISTEMA
           </Button>
         </div>
       </div>
@@ -83,7 +84,9 @@ const TaskList = () => {
       <LogsDialog open={openLogs} onOpenChange={setOpenLogs} />
       <TaskView
         open={viewTaskId !== null}
-        onOpenChange={(open) => { if (!open) setViewTaskId(null); }}
+        onOpenChange={(open) => {
+          if (!open) setViewTaskId(null);
+        }}
         taskId={viewTaskId}
       />
 

@@ -19,7 +19,7 @@ interface KineContextValue {
   setFilterStatus: (status: TaskFilterStatus) => void;
   filterStatus: TaskFilterStatus;
 
-  search?: string;
+  search: string;
   setSearch: (text: string) => void;
 
 }
